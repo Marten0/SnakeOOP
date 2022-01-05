@@ -9,32 +9,43 @@ namespace SnakeOOP
         static void Main(string[] args)
         {
 
-            Point p1 = new Point(10, 10, '*');
-            Point p2 = new Point(11, 10, '*');
-
-
-
-            HorizontalLine hLine = new HorizontalLine(10, 14, 5, '*');
-           // hLine.Draw();
-            VerticalLine vLine = new VerticalLine(6, 16, 10, '@');
-            //vLine.Draw();
-
+            
+            int score = 0;
             //drawing a game field frame
-            HorizontalLine top = new HorizontalLine(0, 80, 0, '#');
-            top.Draw();
-            VerticalLine left = new VerticalLine(0, 25, 0, '#');
-            left.Draw();
-            HorizontalLine bottom = new HorizontalLine(0, 80, 25, '$');
-            bottom.Draw();
-            VerticalLine right = new VerticalLine(0, 25, 80, '$');
-            right.Draw();
+            Walls walls = new Walls(80, 25);
+            walls.Draw();
+           
 
-            Point snakeTail = new Point(15, 15, 's');
+            Point snakeTail = new Point(15, 15, 'o');
+            Console.ForegroundColor = ConsoleColor.Blue;
             Snake snake = new Snake(snakeTail, 5, Direction.DOWN);
             snake.Draw();
 
+            FoodGenerator foodGenerator = new FoodGenerator(80, 25, '$');
+            Point food = foodGenerator.GenerateFood();
+            food.Draw();
+
+
             while (true)
             {
+                if(walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    break;
+                    
+                }
+                if (snake.Eat(food))
+                {
+                    food = foodGenerator.GenerateFood();
+
+                    food.Draw();
+                    score++;
+                    
+                }
+                else
+                {
+                    snake.Move();
+                }
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
@@ -42,12 +53,34 @@ namespace SnakeOOP
                 }
 
                 Thread.Sleep(300);
-                snake.Move();
+                
             }
-            
 
+            string str_score = Convert.ToString(score);
+            WriteGameOver(str_score);
             Console.ReadLine();
+        }
 
+
+        public static void WriteGameOver(string score)
+        {
+            int xOffset = 25;
+            int yOffset = 8;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.SetCursorPosition(xOffset, yOffset);
+            WriteText("=========================", xOffset, yOffset++);
+            WriteText("        GAME OVER        ", xOffset+1, yOffset++);
+            yOffset++;
+            WriteText($" You scored {score} points", xOffset + 2, yOffset++);
+            WriteText("", xOffset+1, yOffset++);
+            WriteText("=========================", xOffset, yOffset++);
+        }
+
+
+        public static void WriteText(String text, int xOffset, int yOffset)
+        {
+            Console.SetCursorPosition(xOffset, yOffset);
+            Console.WriteLine(text);
         }
     }
 }
