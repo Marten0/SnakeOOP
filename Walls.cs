@@ -18,12 +18,15 @@ namespace SnakeOOP
 
             VerticalLine obstacle = new VerticalLine(10, 13, 50, '%');
             Console.ForegroundColor = ConsoleColor.Red;
-
+            VerticalLine obstacle2 = new VerticalLine(5, 7, 20, '%');
+            VerticalLine obstacle3 = new VerticalLine(15, 18, 30, '%');
             wallList.Add(top);
             wallList.Add(left);
             wallList.Add(bottom);
             wallList.Add(right);
             wallList.Add(obstacle);
+            wallList.Add(obstacle2);
+            wallList.Add(obstacle3);
         }
         public void Draw()
         {

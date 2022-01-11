@@ -9,6 +9,7 @@ namespace SnakeOOP
         static void Main(string[] args)
         {
 
+            Console.Beep();
             
             int score = 0;
             //drawing a game field frame
@@ -16,12 +17,12 @@ namespace SnakeOOP
             walls.Draw();
            
 
-            Point snakeTail = new Point(15, 15, 'o');
+            Point snakeTail = new Point(15, 15, '*');
             Console.ForegroundColor = ConsoleColor.Blue;
-            Snake snake = new Snake(snakeTail, 5, Direction.DOWN);
+            Snake snake = new Snake(snakeTail, 5, Direction.RIGHT);
             snake.Draw();
 
-            FoodGenerator foodGenerator = new FoodGenerator(80, 25, '$');
+            FoodGenerator foodGenerator = new FoodGenerator(70, 25, '$');
             Point food = foodGenerator.GenerateFood();
             food.Draw();
 
@@ -52,7 +53,7 @@ namespace SnakeOOP
                     snake.HandleKeys(key.Key);
                 }
 
-                Thread.Sleep(300);
+                Thread.Sleep(90);
                 
             }
 
